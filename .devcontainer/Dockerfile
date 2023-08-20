@@ -1,25 +1,36 @@
-FROM python:3-slim-bullseye
+FROM python:3.11-slim
+
+ARG USERNAME=user
 
 USER root
 
-RUN apt update -y \
-    && apt upgrade -qqy
+RUN apt-get update -y \
+    && DEBIAN_FRONTEND=noninteractive \
+    apt-get install -y --no-install-recommends \
+    git \
+    locales \
+    tzdata \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN apt install -y locales && \
-    localedef -f UTF-8 -i ja_JP ja_JP.UTF-8
-ENV LANG ja_JP.UTF-8
-ENV LANGUAGE ja_JP:ja
-ENV LC_ALL ja_JP.UTF-8
-ENV TZ JST-9
-ENV TERM xterm
-
-RUN apt update -y \
-    && apt install -y git
+RUN locale-gen ja_JP.UTF-8 \
+    && localedef -f UTF-8 -i ja_JP ja_JP.UTF-8
+ENV TZ=Asia/Tokyo \
+    LANG=ja_JP.UTF-8 \
+    LANGUAGE=ja_JP:jp \
+    LC_ALL=ja_JP.UTF-8
 
 RUN pip install --upgrade pip
 RUN pip install --upgrade setuptools
 
+WORKDIR /workspaces
+
 COPY ./requirements.txt requirements.txt
 RUN pip install -r requirements.txt
+
+RUN groupadd -r $USERNAME && useradd -r -g $USERNAME $USERNAME
+RUN mkdir /home/$USERNAME
+
+USER $USERNAME
 
 ENTRYPOINT [ "/bin/bash" ]
