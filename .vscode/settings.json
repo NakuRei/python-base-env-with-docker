@@ -1,21 +1,16 @@
 {
     "files.eol": "\n",
-    "python.linting.enabled": true,
-    "python.linting.lintOnSave": true,
-    "python.linting.pylintEnabled": false,
-    "python.linting.flake8Enabled": true,
-    "python.formatting.provider": "black",
     "[python]": {
         "editor.tabSize": 4,
-        "editor.defaultFormatter": null,
+        "editor.defaultFormatter": "ms-python.black-formatter",
         "editor.formatOnSave": true,
     },
-    "python.linting.flake8Args": [
+    "flake8.args": [
         "--ignore=E203,W503",
-        "--max-line-length=88"
+        "--max-line-length=80"
     ],
-    "python.formatting.blackArgs": [
-        "--line-length=88"
+    "black-formatter.args": [
+        "--line-length=80"
     ],
     "isort.args": [
         "--profile",

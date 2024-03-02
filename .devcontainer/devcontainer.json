@@ -1,5 +1,5 @@
 {
-    "name": "python-debug-test",
+    "name": "python-base-env-with-docker",
     "build": {
         "dockerfile": "./Dockerfile",
         "context": ".."
@@ -7,7 +7,11 @@
     "customizations": {
         "vscode": {
             "extensions": [
-                "ms-python.python"
+                "ms-python.python",
+                "ms-python.black-formatter",
+                "ms-python.flake8",
+                "ms-python.isort",
+                "ms-python.mypy-type-checker"
             ]
         }
     }
